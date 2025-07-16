@@ -1,30 +1,39 @@
 pipeline {
-    agent any
+    agent any // This pipeline can run on any available agent
 
     stages {
-        stage('Checkout') {
+        stage('Create Directory and Clone') {
             steps {
-                // Checkout code from Git
-                git url: 'https://github.com/kairamumasatyasubhash/git-pipeline.git', branch: 'main'
+                echo "Preparing to clone the repository into a new directory..."
+                git(
+                    url: 'https://github.com/kairamumasatyasubhash/git-pipeline.git'
+                    branch: 'main',
+                    dir: 'pipeline-git' // This directory will be created
+                )
+
+                echo "Repository cloned successfully into the 'pipeline-examples-repo' directory."
             }
         }
-        stage('Build') {
+
+        stage('Verify Cloned Directory') {
             steps {
-                // Build the application
-                sh 'make build'
+                dir('pipeline-git') {
+                    echo "Verifying contents of the cloned directory..."
+                    script {
+                        if (isUnix()) {
+                            sh 'ls -la'
+                        } else {
+                            bat 'dir'
+                        }
+                    }
+                }
             }
         }
-        stage('Test') {
-            steps {
-                // Run tests
-                sh 'make test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                // Deploy the application
-                sh 'make deploy'
-            }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished."
         }
     }
 }
