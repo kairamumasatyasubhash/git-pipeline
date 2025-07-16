@@ -6,12 +6,12 @@ pipeline {
             steps {
                 echo "Preparing to clone the repository into a new directory..."
                 git(
-                    url: 'https://github.com/kairamumasatyasubhash/git-pipeline.git'
+                    url: 'https://github.com/kairamumasatyasubhash/git-pipeline.git', // Added comma here
                     branch: 'main',
                     dir: 'pipeline-git' // This directory will be created
                 )
 
-                echo "Repository cloned successfully into the 'pipeline-examples-repo' directory."
+                echo "Repository cloned successfully into the 'pipeline-git' directory." // Corrected directory name
             }
         }
 
