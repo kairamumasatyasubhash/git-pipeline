@@ -11,9 +11,6 @@ pipeline {
                     dir('subhashkairam') {
                         // Clone the repository
                         sh 'git clone https://github.com/kairamumasatyasubhash/git-pipeline.git'
-                        
-                        // Change to the cloned directory and run Maven build
-                        dir('git-pipeline') {
                             sh 'mvn clean install'
                         }
                     }
