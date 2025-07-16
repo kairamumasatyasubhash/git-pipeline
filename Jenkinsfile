@@ -1,22 +1,29 @@
 pipeline {
     agent any
+
     stages {
-        stage ('Git Checkout') {
-            steps{
-                checkout scm
-                echo "Code checked sucessfully"
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git
+                git url: 'https://github.com/yourusername/your-repo.git', branch: 'main'
             }
         }
-        stage ('Build') {
+        stage('Build') {
             steps {
-                echo "Building the Project ...."
-                bat 'dir'
-                sh 'ls -l'
+                // Build the application
+                sh 'make build'
             }
         }
-        stage ('Test') {
+        stage('Test') {
             steps {
-                echo "Running the test ...."
+                // Run tests
+                sh 'make test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy the application
+                sh 'make deploy'
             }
         }
     }
